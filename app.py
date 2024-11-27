@@ -12,11 +12,14 @@ grammar = """
 ?term: factor
      | term "*" factor -> mul
      | term "/" factor -> div
-?factor: NUMBER        -> number
+?factor: SIGNED_NUMBER -> number
+       | "-" factor    -> neg
        | "(" expr ")"  -> parens
-NUMBER: /\d+(\.\d+)?/
-%ignore " "            // Ignorar espacios en blanco
+SIGNED_NUMBER: /-?\d+(\.\d+)?/
+%ignore " "                     // Ignorar espacios en blanco
 """
+
+
 
 parser = Lark(grammar, start='start', parser='lalr')
 
